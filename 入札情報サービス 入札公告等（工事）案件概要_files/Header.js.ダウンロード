@@ -1,0 +1,146 @@
+// =============================================
+// Font初期処理イベント
+// =============================================
+window.addEventListener('load', () => {
+    // セッションを確認して選択されているフォントボタンを適用
+    changeFontSize(sessionStorage.getItem('fontSize'));
+    // セッションを確認して選択されている色彩ボタンを適用
+    changeColor(sessionStorage.getItem('color'));
+});
+
+
+// =============================================
+// Font設定処理
+// =============================================
+function changeFontSize(fontSize) {
+
+    var arrayEle = new Array();
+    var e;
+
+    e = document.querySelectorAll('.support_title');
+    Array.prototype.forEach.call(e, function (ele) {
+        arrayEle.push(ele);
+    });
+    e = document.querySelectorAll('.support_btn > a');
+    Array.prototype.forEach.call(e, function (ele) {
+        arrayEle.push(ele);
+    });
+    e = document.querySelectorAll('#header_table > tbody > tr')[1].querySelectorAll('td > a');
+    Array.prototype.forEach.call(e, function (ele) {
+        arrayEle.push(ele);
+    });
+
+    arrayEle.forEach(function (ele) {
+
+        // フォントサイズの初期化
+        ele.classList.remove('font_large_cls');
+        ele.classList.remove('font_medium_cls');
+        ele.classList.remove('font_small_cls');
+
+        if (fontSize === '3') {
+            ele.classList.add('font_large_cls');
+        } else if (fontSize === '2') {
+            ele.classList.add('font_medium_cls');
+        } else {
+            ele.classList.add('font_small_cls');
+        }
+    });
+
+    var btnEle = document.querySelectorAll('#support_frm > a > span');
+
+    // 選択の初期化
+    btnEle[0].classList.remove('size_selected');
+    btnEle[1].classList.remove('size_selected');
+    btnEle[2].classList.remove('size_selected');
+
+    if (fontSize === '3') {
+        btnEle[0].classList.add('size_selected');
+    } else if (fontSize === '2') {
+        btnEle[1].classList.add('size_selected');
+    } else {
+        btnEle[2].classList.add('size_selected');
+    }
+}
+
+// =============================================
+// Font大ボタンクリックイベント
+// =============================================
+function onClickLargeText() {
+    // ボタンを押された際に文字の大きさ情報をセッションに保持してサイズを変更する
+    sessionStorage.setItem('fontSize', '3');
+    changeFontSize('3');
+}
+
+// =============================================
+// Font中ボタンクリックイベント
+// =============================================
+function onClickMediumText() {
+    // ボタンを押された際に文字の大きさ情報をセッションに保持してサイズを変更する
+    sessionStorage.setItem('fontSize', '2');
+    changeFontSize('2');
+}
+
+// =============================================
+// Font小ボタンクリックイベント
+// =============================================
+function onClickSmallText() {
+    // ボタンを押された際に文字の大きさ情報をセッションに保持してサイズを変更する
+    sessionStorage.setItem('fontSize', '1');
+    changeFontSize('1');
+}
+
+// =============================================
+// 色彩設定処理
+// =============================================
+function changeColor(color) {
+    
+    let css = document.getElementById('css');
+    let dir = location.href.split("/").length;
+
+    // 階層の判定
+    if (dir === 8) {
+        if (color === '3') {
+            css.setAttribute('href', '../css/ppi_main_3.css');
+        } else if (color === '2') {
+            css.setAttribute('href', '../css/ppi_main_2.css');
+        } else {
+            css.setAttribute('href', '../css/ppi_main_1.css');
+        }
+    } else {
+        if (color === '3') {
+            css.setAttribute('href', '../../css/ppi_main_3.css');
+        } else if (color === '2') {
+            css.setAttribute('href', '../../css/ppi_main_2.css');
+        } else {
+            css.setAttribute('href', '../../css/ppi_main_1.css');
+        }
+    }
+}
+
+// =============================================
+// 色彩黒ボタンクリックイベント
+// =============================================
+function onClickBlackText() {
+    // ボタンを押された際に文字の色彩情報をセッションに保持して色彩を変更する
+
+    sessionStorage.setItem('color', '1');
+    changeColor('1');
+}
+
+// =============================================
+// 色彩白ボタンクリックイベント
+// =============================================
+function onClickWhiteText() {
+    // ボタンを押された際に文字の色彩情報をセッションに保持して色彩を変更する
+    sessionStorage.setItem('color', '2');
+    changeColor('2');
+}
+
+// =============================================
+// 色彩黄ボタンクリックイベント
+// =============================================
+function onClickYellowText() {
+    // ボタンを押された際に文字の色彩情報をセッションに保持して色彩を変更する
+    sessionStorage.setItem('color', '3');
+    changeColor('3');
+}

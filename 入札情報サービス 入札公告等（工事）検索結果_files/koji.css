@@ -1,0 +1,198 @@
+/* 横罫線のスタイル（NNでは色は出ません） */
+hr {
+	color: #639ACE;
+	height: 2px;
+	/* 2022.11.30 R4機能改良 YSL START */
+	/* margin-left : 12px ; */
+	/*margin-left : 0px ;*/
+	/* 2022.11.30 R4機能改良 YSL END */
+	text-align: center;
+	/* 2022.11.30 R4機能改良 YSL START */
+	/* width : 960px ; */
+	width: 97%;
+	min-width: 1024px;
+	max-width: 1920px;
+	/* 2022.11.30 R4機能改良 YSL END */
+}
+
+/* TOPページへ戻る　に使用している行のスタイル */
+tr.back_top {
+	background-color : #333366 ;
+	height : 20px ;
+	text-align : right ;
+}
+
+/* 検索結果一覧に戻る　に使用している行のスタイル */
+tr.back_src {
+	background-color : #FFFFFF ;
+	height : 20px ;
+	text-align : center ;
+}
+
+/* タイトルに使用している行のスタイル */
+tr.title {
+	background-color : #000066 ;
+	color : #FFFFFF ;
+	height : 30px ;
+}
+
+/* サブタイトルに使用している行のスタイル */
+tr.title_mid {
+	background-color : #639ACE ;
+	color : #FFFFFF ;
+	font-size : 16px ;
+	font-weight : bold ;
+	height : 30px ;
+	text-align : center ;
+}
+/* サブタイトルに使用している行のスタイル(ミドル) */
+tr.title_mid_midle {
+	background-color : #639ACE ;
+	color : #FFFFFF ;
+	font-size : 14px ;
+	font-weight : bold ;
+	height : 25px ;
+	text-align : center ;
+}
+/* サブタイトルに使用している行のスタイル(スモール) */
+tr.title_mid_small {
+	background-color : #639ACE ;
+	color : #FFFFFF ;
+	font-size : 14px ;
+	font-weight : bold ;
+	height : 25px ;
+	text-align : center ;
+}
+/* サブタイトル（注記）に使用している行のスタイル(スモール) */
+tr.title_mid_small_chuki {
+	background-color : #639ACE ;
+	color : #333366 ;
+	font-size : 14px ;
+	font-weight : bold ;
+	height : 25px ;
+	text-align : center ;
+}
+
+/* サブタイトルに使用している行のスタイル */
+tr.title_line_again  {
+	background-color : #639ACE ;
+	color : #FFFFFF ;
+	font-size : 13px ;
+	font-weight : bold ;
+	height : 30px ;
+	text-align : center ;
+}
+
+
+/* サブタイトルに使用している行のスタイル */
+tr.title_light {
+	background-color : #CCCCFF ;
+	color : #FFFFFF ;
+	font-size : 13px ;
+	font-weight : bold ;
+	height : 23px ;
+	text-align : left ;
+}
+
+/* 偶数行（と同等のスタイルに相当する行）のスタイル */
+tr.even {
+	background-color : #DCDCDC ;
+	height : 30px ;
+}
+
+/* 奇数行（と同等のスタイルに相当する行）のスタイル */
+tr.odd {
+	background-color : #FFFFFF ;
+	height : 30px ;
+}
+
+/* 発注機関への連絡先等　に使用しているセルのスタイル */
+td.inf {
+	color : #333366 ;
+	font-weight : bold ;
+	width : 300px ;
+}
+
+/* 行タイトルに使用しているセルのスタイル */
+td.hdr {
+	color: #333366;
+	font-weight: bold;
+	/* 2022.11.30 R4機能改良 YSL START */
+	/*	width : 180px ; */
+	width: 210px;
+	padding-left: 50px;
+	/* 2022.11.30 R4機能改良 YSL END */
+}
+
+/* リンクのスタイル */
+a:link { color : #333366; }
+a:active { color : #333366; }
+a:visited { color : #333366; }
+a:hover { color : #639ACE ; }
+
+/* 戻るリンク */
+A.backlink {
+	/*FONT-SIZE: 13px;*/
+	COLOR: #333366;
+	font-weight:bold;
+}
+
+/* 全体件数のスタイル */
+.search_count{
+	color : #333366 ;
+	font-weight : bold;
+	font-size : 30px ;
+	font-family:Meiryo;
+}
+/* FromTo件数のスタイル */
+.search_from_to_count{
+	color : #333366 ;
+	font-weight : bold;
+	font-size : 17px ;
+	font-family:Meiryo;
+}
+/* 件数0件メッセージ */
+.nodata_msg
+{
+	color :#ffffff ;
+	font-weight : bold;
+	font-size : 16px ;
+}
+
+/* データグリッドのタイトルに使用しているスタイル */
+.dgrtitle 
+{
+	background-color : #639ACE ;
+	color : #FFFFFF ;
+	font-weight : bold ;
+	text-align : center ;
+}
+
+/* データグリッドの業務名アイテムに使用しているスタイル */
+.dgritem_kenmei
+{
+	color : #333366 ;
+    /* 2020.11.13 DEL 10月追加開発（スタイル変更）CR-L shidochi start */
+	/* font-weight : bold ; */
+    /* 2020.11.13 DEL 10月追加開発（スタイル変更）CR-L shidochi end */
+}
+
+/* データグリッドの入札予定時期、更新日アイテムに使用しているスタイル */
+.dgritem_yoteiupdate
+{
+	text-align : center;
+}
+
+/* 2018.02.02 EDIT hiroaki sasaki 法人番号対応_桁数変更対応（120⇒150）*/
+/* List_Detailのみ使用のスタイル */
+/* 行表示データ「落札者名」・「契約者名」のみのセルのスタイル*/
+td.item_word_break {
+	word-break: break-all;
+}
+
+/* CSVボタン */
+.csvdl{
+	float: right;
+}
+
+
