@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>設定 - 国土交通省 入札案件抽出</title>
+    <link rel="stylesheet" href="options.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>設定</h1>
+        </header>
+        
+        <main>
+            <form id="optionsForm">
+                <section class="settings-section">
+                    <h2>基本設定</h2>
+                    
+                    <div class="setting-item">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="autoClipboard" name="autoClipboard">
+                            <span class="checkbox-text">抽出後に自動でクリップボードにコピー</span>
+                        </label>
+                        <p class="setting-description">
+                            データ抽出後、自動的にクリップボードにコピーします
+                        </p>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="showNotifications" name="showNotifications">
+                            <span class="checkbox-text">完了時に通知を表示</span>
+                        </label>
+                        <p class="setting-description">
+                            データ抽出が完了したときにデスクトップ通知を表示します
+                        </p>
+                    </div>
+                </section>
+                
+                <section class="settings-section">
+                    <h2>詳細設定</h2>
+                    
+                    <div class="setting-item">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="debugMode" name="debugMode">
+                            <span class="checkbox-text">デバッグモード</span>
+                        </label>
+                        <p class="setting-description">
+                            開発者ツールのコンソールに詳細なログを出力します
+                        </p>
+                    </div>
+                </section>
+                
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">保存</button>
+                    <button type="button" id="resetBtn" class="btn btn-secondary">初期設定に戻す</button>
+                </div>
+            </form>
+            
+            <div id="message" class="message hidden"></div>
+        </main>
+        
+        <footer>
+            <div class="footer-info">
+                <p>バージョン: <span id="version">1.0.0</span></p>
+                <p>© 2024 国土交通省 入札案件抽出</p>
+            </div>
+        </footer>
+    </div>
+    
+    <script src="options.js"></script>
+</body>
+</html>

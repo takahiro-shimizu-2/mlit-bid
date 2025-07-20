@@ -1,0 +1,26 @@
+{
+  "name": "mlit-bid-extension",
+  "version": "1.0.0",
+  "description": "Chrome extension for extracting bid information from MLIT website",
+  "main": "src/manifest.json",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "build": "npm run clean && npm run copy",
+    "clean": "rm -rf dist",
+    "copy": "mkdir -p dist && cp -r src/* dist/",
+    "zip": "npm run build && cd dist && zip -r ../mlit-bid-extension.zip *"
+  },
+  "keywords": [
+    "chrome-extension",
+    "mlit",
+    "bid",
+    "procurement"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "@types/chrome": "^0.0.200"
+  }
+}
