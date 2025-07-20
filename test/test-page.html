@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>入札情報サービス - 工事案件詳細（テストページ）</title>
+    <style>
+        body {
+            font-family: "MS Gothic", monospace;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+        h1 {
+            font-size: 18px;
+            background-color: #003366;
+            color: white;
+            padding: 10px;
+            margin: -20px -20px 20px -20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th {
+            background-color: #e0e0e0;
+            text-align: left;
+            padding: 8px;
+            border: 1px solid #999;
+            font-weight: normal;
+            width: 25%;
+        }
+        td {
+            padding: 8px;
+            border: 1px solid #999;
+        }
+        .label {
+            font-weight: bold;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .section-title {
+            background-color: #6699cc;
+            color: white;
+            padding: 5px 10px;
+            margin: 20px -20px 10px -20px;
+            font-weight: bold;
+        }
+        .file-table {
+            margin-top: 10px;
+        }
+        .file-table td {
+            padding: 5px;
+        }
+        .status-public {
+            color: green;
+            font-weight: bold;
+        }
+        .note {
+            background-color: #ffffcc;
+            padding: 10px;
+            margin: 20px 0;
+            border: 1px solid #cccc00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>入札情報サービス - 工事案件詳細</h1>
+        
+        <div class="note">
+            <strong>テストページ説明:</strong><br>
+            これは国土交通省入札情報サービスの案件詳細ページを模擬したテストページです。<br>
+            Chrome拡張機能のテストにご使用ください。<br>
+            URLは実際のサービスとは異なりますが、DOM構造は同じです。
+        </div>
+
+        <div class="section-title">工事概要</div>
+        
+        <table>
+            <tr>
+                <th>発注機関</th>
+                <td colspan="3"><span id="lblHachukikan">国土交通省 関東地方整備局 東京国道事務所</span></td>
+            </tr>
+            <tr>
+                <th>工事名称</th>
+                <td colspan="3"><span id="lblKojiNm">令和6年度 国道1号線舗装修繕工事</span></td>
+            </tr>
+            <tr>
+                <th>工事場所</th>
+                <td colspan="3"><span id="lblKojiPlaceFrom">東京都千代田区霞が関1丁目～港区虎ノ門2丁目</span></td>
+            </tr>
+            <tr>
+                <th>工事種別／工事の業種</th>
+                <td><span id="lblKojiType">舗装工事</span></td>
+                <th>設計書番号</th>
+                <td><span id="lblSekkeisyoNo">R06-KT-001234</span></td>
+            </tr>
+        </table>
+
+        <div class="section-title">入札日程</div>
+        
+        <table>
+            <tr>
+                <th>公告日時</th>
+                <td><span id="lblKokokuDate">令和6年7月1日 10時00分</span></td>
+                <th>入札書受付期限日時</th>
+                <td><span id="lblkigenDate">令和6年7月20日 17時00分</span></td>
+            </tr>
+            <tr>
+                <th>開札日時</th>
+                <td colspan="3"><span id="lblKasatuDate">令和6年7月22日 10時00分</span></td>
+            </tr>
+        </table>
+
+        <div class="section-title">公開書類</div>
+        
+        <table class="file-table">
+            <tr>
+                <th style="width: 15%;">公開状態</th>
+                <th style="width: 25%;">書類名</th>
+                <th style="width: 40%;">ファイル</th>
+                <th style="width: 20%;">更新日時</th>
+            </tr>
+            <tr>
+                <td class="status-public">公開中</td>
+                <td>入札公告</td>
+                <td><a href="test-files/nyusatsu_kokoku.pdf">入札公告.pdf</a></td>
+                <td>2024/07/01 10:00</td>
+            </tr>
+            <tr>
+                <td class="status-public">公開中</td>
+                <td>入札説明書</td>
+                <td><a href="test-files/nyusatsu_setsumei.pdf">入札説明書.pdf</a></td>
+                <td>2024/07/01 10:00</td>
+            </tr>
+            <tr>
+                <td>非公開</td>
+                <td>設計図書</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+        </table>
+
+        <div class="section-title">テスト用バリエーション</div>
+        
+        <p>以下のボタンでデータを変更してテストできます：</p>
+        
+        <button onclick="changeToMinistry()">省庁パターンに変更</button>
+        <button onclick="changeToPrefecture()">都道府県パターンに変更</button>
+        <button onclick="changeToOther()">その他パターンに変更</button>
+        <button onclick="resetData()">初期状態に戻す</button>
+
+        <script>
+            function changeToMinistry() {
+                document.getElementById('lblHachukikan').textContent = '内閣府 政策統括官（防災担当）';
+                document.getElementById('lblKojiNm').textContent = '防災情報システム改修業務';
+                document.getElementById('lblKojiType').textContent = '電気通信工事';
+                document.getElementById('lblSekkeisyoNo').textContent = 'CAO-2024-001';
+            }
+
+            function changeToPrefecture() {
+                document.getElementById('lblHachukikan').textContent = '東京都 建設局 道路建設部';
+                document.getElementById('lblKojiNm').textContent = '都道整備工事（第5工区）';
+                document.getElementById('lblKojiType').textContent = '土木一式工事';
+                document.getElementById('lblSekkeisyoNo').textContent = 'TMG-R06-5678';
+            }
+
+            function changeToOther() {
+                document.getElementById('lblHachukikan').textContent = '独立行政法人都市再生機構 東日本賃貸住宅本部';
+                document.getElementById('lblKojiNm').textContent = '団地外壁修繕工事';
+                document.getElementById('lblKojiType').textContent = '建築一式工事';
+                document.getElementById('lblSekkeisyoNo').textContent = 'UR-2024-9012';
+            }
+
+            function resetData() {
+                document.getElementById('lblHachukikan').textContent = '国土交通省 関東地方整備局 東京国道事務所';
+                document.getElementById('lblKojiNm').textContent = '令和6年度 国道1号線舗装修繕工事';
+                document.getElementById('lblKojiPlaceFrom').textContent = '東京都千代田区霞が関1丁目～港区虎ノ門2丁目';
+                document.getElementById('lblKojiType').textContent = '舗装工事';
+                document.getElementById('lblSekkeisyoNo').textContent = 'R06-KT-001234';
+                document.getElementById('lblKokokuDate').textContent = '令和6年7月1日 10時00分';
+                document.getElementById('lblkigenDate').textContent = '令和6年7月20日 17時00分';
+                document.getElementById('lblKasatuDate').textContent = '令和6年7月22日 10時00分';
+            }
+        </script>
+    </div>
+</body>
+</html>
