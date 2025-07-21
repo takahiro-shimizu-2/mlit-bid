@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "国土交通省 入札案件抽出",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "入札情報サービスから工事案件の情報を抽出し、スプレッドシート用に整形します",
   "permissions": [
     "clipboardWrite",

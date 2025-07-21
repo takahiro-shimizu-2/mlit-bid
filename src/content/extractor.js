@@ -34,11 +34,23 @@ function extractTextById(id) {
 
 // Extract PDF URL from the page
 function extractPdfUrl() {
-  const pdfLinks = document.querySelectorAll('a[href*=".pdf"]');
-  if (pdfLinks.length > 0) {
-    const href = pdfLinks[0].getAttribute('href');
-    // Convert relative URL to absolute URL
-    return href.startsWith('http') ? href : new URL(href, window.location.origin).href;
+  // Look for links in the document table (dgrKokoku)
+  const kokokuTable = document.getElementById('dgrKokoku');
+  if (kokokuTable) {
+    // Find the row containing "入札公告" text
+    const rows = kokokuTable.getElementsByTagName('tr');
+    for (let i = 1; i < rows.length; i++) { // Skip header row
+      const cells = rows[i].getElementsByTagName('td');
+      if (cells.length > 0 && cells[0].textContent.trim().includes('入札')) {
+        // Get the link from the second cell (公開状況)
+        const link = cells[1] ? cells[1].querySelector('a') : null;
+        if (link && link.hasAttribute('href')) {
+          const href = link.getAttribute('href');
+          return href.startsWith('http') ? href : new URL(href, window.location.origin).href;
+        }
+      }
+    }
   }
+  
   return '';
 }
