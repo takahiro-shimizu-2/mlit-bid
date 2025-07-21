@@ -1,7 +1,16 @@
-// extractor.js - Data extraction logic
+// extractor.js - Detail page data extraction logic
 
-// Main extraction function
+// Main extraction function for detail pages
 window.extractData = function() {
+  // Required elements for detail page
+  const requiredElements = ['lblHachukikan', 'lblKojiNm', 'lblKojiPlaceFrom'];
+  const hasRequiredElements = requiredElements.some(id => document.getElementById(id));
+  
+  if (!hasRequiredElements) {
+    throw new Error('入札案件の詳細ページでのみ使用できます。');
+  }
+  
+  // Extract all data fields
   const data = {
     hachukikan: extractTextById('lblHachukikan'),
     kojiName: extractTextById('lblKojiNm'),
@@ -10,62 +19,26 @@ window.extractData = function() {
     sekkeishoNo: extractTextById('lblSekkeisyoNo'),
     kokokuDate: extractTextById('lblKokokuDate'),
     kigenDate: extractTextById('lblkigenDate'),
-    kasatuDate: extractTextById('lblKasatuDate'),
-    pdfUrl: extractPDFUrl()
+    kasatuDate: extractTextById('lblkasatuDate'),
+    pdfUrl: extractPdfUrl()
   };
   
   return data;
 };
 
 // Extract text content by element ID
-function extractTextById(elementId) {
-  const element = document.getElementById(elementId);
-  if (!element) {
-    console.warn(`Element not found: ${elementId}`);
-    return '';
-  }
-  return element.textContent.trim();
+function extractTextById(id) {
+  const element = document.getElementById(id);
+  return element ? element.textContent.trim() : '';
 }
 
-// Extract PDF URL from public documents
-function extractPDFUrl() {
-  try {
-    // Find all rows in the document table
-    const rows = document.querySelectorAll('table tr');
-    
-    for (const row of rows) {
-      const cells = row.querySelectorAll('td');
-      
-      // Look for rows with "公開中" status
-      for (let i = 0; i < cells.length; i++) {
-        if (cells[i].textContent.includes('公開中')) {
-          // Check for PDF links in the same row
-          const links = row.querySelectorAll('a');
-          for (const link of links) {
-            const href = link.getAttribute('href');
-            if (href && (href.toLowerCase().includes('.pdf') || 
-                        link.textContent.includes('PDF') ||
-                        link.textContent.includes('ダウンロード'))) {
-              // Convert relative URL to absolute
-              return new URL(href, window.location.origin).href;
-            }
-          }
-        }
-      }
-    }
-    
-    // Alternative search method - look for any PDF links with 公開中 nearby
-    const allLinks = document.querySelectorAll('a[href*=".pdf"], a[href*=".PDF"]');
-    for (const link of allLinks) {
-      const parentText = link.closest('tr')?.textContent || '';
-      if (parentText.includes('公開中')) {
-        return new URL(link.getAttribute('href'), window.location.origin).href;
-      }
-    }
-    
-  } catch (error) {
-    console.error('Error extracting PDF URL:', error);
+// Extract PDF URL from the page
+function extractPdfUrl() {
+  const pdfLinks = document.querySelectorAll('a[href*=".pdf"]');
+  if (pdfLinks.length > 0) {
+    const href = pdfLinks[0].getAttribute('href');
+    // Convert relative URL to absolute URL
+    return href.startsWith('http') ? href : new URL(href, window.location.origin).href;
   }
-  
   return '';
 }

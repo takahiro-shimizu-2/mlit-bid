@@ -4,9 +4,7 @@
   "version": "1.0.0",
   "description": "入札情報サービスから工事案件の情報を抽出し、スプレッドシート用に整形します",
   "permissions": [
-    "storage",
     "clipboardWrite",
-    "notifications",
     "tabs",
     "scripting"
   ],
@@ -27,14 +25,12 @@
   "content_scripts": [
     {
       "matches": [
-        "https://www.i-ppi.jp/IPPI/SearchServices/Web/Koji/Kokoku/List_Detail.aspx*",
-        "https://www.i-ppi.jp/IPPI/SearchServices/Web/Koji/Kokoku/List.aspx*"
+        "https://www.i-ppi.jp/IPPI/SearchServices/Web/Koji/Kokoku/List_Detail.aspx*"
       ],
-      "js": ["content/content.js", "content/extractor.js"],
+      "js": ["content/formatter.js", "content/extractor.js", "content/content.js"],
       "run_at": "document_end"
     }
   ],
-  "options_page": "options/options.html",
   "icons": {
     "16": "assets/icons/icon16.png",
     "48": "assets/icons/icon48.png",

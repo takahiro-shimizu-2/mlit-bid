@@ -1,131 +1,90 @@
-// popup.js - Popup window logic
+// popup.js - Simplified popup window logic for detail page extraction only
 
+// Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   const extractBtn = document.getElementById('extractBtn');
+  const statusDiv = document.getElementById('status');
   const statusText = document.getElementById('statusText');
   const resultDiv = document.getElementById('result');
   const resultMessage = resultDiv.querySelector('.result-message');
-  const settingsBtn = document.getElementById('settingsBtn');
-  const helpBtn = document.getElementById('helpBtn');
-  
-  // Check if on correct page
-  checkCurrentTab();
   
   // Extract button click handler
   extractBtn.addEventListener('click', async () => {
     try {
-      // Update UI to processing state
-      setProcessingState();
+      // Disable button and show processing state
+      extractBtn.disabled = true;
+      extractBtn.classList.add('loading');
+      statusText.textContent = '入札情報を抽出中...';
+      statusText.className = 'status-text processing';
+      statusDiv.classList.remove('hidden');
+      resultDiv.classList.add('hidden');
       
       // Get current tab
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
       
-      // Check if on correct page
-      if (!isValidPage(tab.url)) {
-        throw new Error('この拡張機能は入札情報サービスの案件詳細ページでのみ使用できます。');
+      // Check if content script is loaded
+      let isLoaded = false;
+      try {
+        const response = await chrome.tabs.sendMessage(tab.id, { action: 'ping' });
+        isLoaded = response && response.success;
+      } catch (error) {
+        // Script not loaded
       }
       
-      // Send message to content script
-      const response = await chrome.tabs.sendMessage(tab.id, { action: 'extractData' });
+      // Inject scripts if not loaded
+      if (!isLoaded) {
+        const scripts = [
+          'content/formatter.js',
+          'content/extractor.js',
+          'content/content.js'
+        ];
+        
+        for (const script of scripts) {
+          await chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            files: [script]
+          });
+        }
+        
+        // Wait for scripts to initialize
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
       
-      if (response.success) {
-        // Send formatted data to background script for clipboard copy
-        const bgResponse = await chrome.runtime.sendMessage({
+      // Send extraction request
+      const response = await chrome.tabs.sendMessage(tab.id, { 
+        action: 'extractData'
+      });
+      
+      if (response && response.success) {
+        // Copy to clipboard
+        const clipboardResponse = await chrome.runtime.sendMessage({
           action: 'copyToClipboard',
           data: response.data
         });
         
-        if (bgResponse.success) {
-          setSuccessState('データを抽出してクリップボードにコピーしました。');
-        } else {
+        if (!clipboardResponse || !clipboardResponse.success) {
           throw new Error('クリップボードへのコピーに失敗しました。');
         }
+        
+        // Show success
+        statusText.textContent = '完了';
+        statusText.className = 'status-text success';
+        resultDiv.className = 'result success';
+        resultMessage.textContent = '入札情報を抽出してクリップボードにコピーしました。';
       } else {
-        throw new Error(response.error || 'データの抽出に失敗しました。');
-      }
-      
-    } catch (error) {
-      console.error('Error:', error);
-      setErrorState(error.message);
-    }
-  });
-  
-  // Settings button handler
-  settingsBtn.addEventListener('click', () => {
-    chrome.runtime.openOptionsPage();
-  });
-  
-  // Help button handler
-  helpBtn.addEventListener('click', () => {
-    showHelp();
-  });
-  
-  // Check if current tab is valid
-  async function checkCurrentTab() {
-    try {
-      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-      
-      if (!isValidPage(tab.url)) {
-        extractBtn.disabled = true;
-        statusText.textContent = '非対応ページ';
-        statusText.className = 'status-text error';
-        showResult('error', '入札情報サービスの案件詳細ページで使用してください。');
+        throw new Error(response?.error || '入札情報の抽出に失敗しました。');
       }
     } catch (error) {
-      console.error('Tab check error:', error);
+      // Show error
+      console.error('Extraction error:', error);
+      statusText.textContent = 'エラー';
+      statusText.className = 'status-text error';
+      resultDiv.className = 'result error';
+      resultMessage.textContent = error.message;
+    } finally {
+      // Re-enable button
+      extractBtn.disabled = false;
+      extractBtn.classList.remove('loading');
     }
-  }
-  
-  // Check if URL is valid
-  function isValidPage(url) {
-    if (!url) return false;
-    return url.includes('www.i-ppi.jp') && url.includes('List_Detail.aspx');
-  }
-  
-  // Set UI to processing state
-  function setProcessingState() {
-    extractBtn.disabled = true;
-    extractBtn.classList.add('loading');
-    statusText.textContent = '処理中...';
-    statusText.className = 'status-text processing';
-    resultDiv.classList.add('hidden');
-  }
-  
-  // Set UI to success state
-  function setSuccessState(message) {
-    extractBtn.disabled = false;
-    extractBtn.classList.remove('loading');
-    statusText.textContent = '完了';
-    statusText.className = 'status-text success';
-    showResult('success', message);
-  }
-  
-  // Set UI to error state
-  function setErrorState(message) {
-    extractBtn.disabled = false;
-    extractBtn.classList.remove('loading');
-    statusText.textContent = 'エラー';
-    statusText.className = 'status-text error';
-    showResult('error', message);
-  }
-  
-  // Show result message
-  function showResult(type, message) {
-    resultDiv.className = `result ${type}`;
-    resultMessage.textContent = message;
-  }
-  
-  // Show help information
-  function showHelp() {
-    const helpMessage = `使い方:
-1. 入札情報サービスの案件詳細ページを開く
-2. 「データを抽出」ボタンをクリック
-3. 抽出されたデータがクリップボードにコピーされます
-4. スプレッドシートに貼り付けてください
-
-対応ページ:
-https://www.i-ppi.jp/IPPI/SearchServices/Web/Koji/Kokoku/List_Detail.aspx`;
-    
-    alert(helpMessage);
-  }
+  });
 });

@@ -2,7 +2,6 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>国土交通省 入札案件抽出</title>
     <link rel="stylesheet" href="popup.css">
 </head>
@@ -14,24 +13,21 @@
         
         <main>
             <button id="extractBtn" class="primary-btn">
-                <span class="btn-icon">📋</span>
-                データを抽出
+                <span class="btn-icon">📄</span>
+                <span class="btn-text">
+                    <span class="btn-title">入札情報を取得</span>
+                    <span class="btn-subtitle">詳細ページから全情報を抽出</span>
+                </span>
             </button>
             
-            <div id="status" class="status">
-                <span class="status-label">抽出状態:</span>
-                <span id="statusText" class="status-text">待機中</span>
+            <div id="status" class="status hidden">
+                <span id="statusText" class="status-text"></span>
             </div>
             
             <div id="result" class="result hidden">
                 <div class="result-message"></div>
             </div>
         </main>
-        
-        <footer>
-            <button id="settingsBtn" class="footer-btn">設定</button>
-            <button id="helpBtn" class="footer-btn">ヘルプ</button>
-        </footer>
     </div>
     
     <script src="popup.js"></script>
